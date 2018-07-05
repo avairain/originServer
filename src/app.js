@@ -10,8 +10,12 @@ let port = '80'
 let path = '/zhetian'
 let h = process.argv.findIndex(v => v === '--host')
 let b = process.argv.findIndex(v => v === '--book')
-hostname = process.argv[h+1] || hostname
-path = ('/' + process.argv[b+1]) || path
+if(h + 1) {
+  hostname = process.argv[h+1] || hostname
+}
+if(b + 1) {
+  path = ('/' + process.argv[b+1]) || path
+}
 app.get('*', (req, res1) => {
   if(/favicon.ico/.test(req.path)) return res1.send(200)
   url = hostname + path + req.path
