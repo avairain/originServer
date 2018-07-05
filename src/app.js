@@ -70,4 +70,6 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err); 
 }); 
 
-app.listen(1007)
+app.listen(6060, () => {
+  console.log(6060)
+})
