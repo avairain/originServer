@@ -1,9 +1,7 @@
 let express = require('express')
 let app = express()
-let http = require('http')
-let fs = require("fs")
-let ps = require('path')
 let router = require('./router')
+
 /* http://www.jueshitangmen.info/zhetian/1971.html */
 app.use('/static', express.static('public'))
 app.use(router)

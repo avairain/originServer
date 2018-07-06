@@ -1,5 +1,8 @@
 let express = require('express')
 let router = express.Router()
+let http = require('http')
+let fs = require("fs")
+let ps = require('path')
 
 let url = 'http://www.jueshitangmen.info'
 let hostname = 'http://www.jueshitangmen.info'
@@ -16,9 +19,9 @@ if(b + 1) {
 // router.all('*', (req, res, next) => {
   
 // })
-router.get("/pc", (req, res1) => {
+router.get("/pc/:data?", (req, res1) => {
   if(/favicon.ico/.test(req.path)) return res1.send(200)
-  url = hostname + path + req.path
+  url = hostname + path + "/" + (req.params.data || '1971.html')
   console.log(url)
   // http({
     //   hostname: 'www.qiushibaike.com',
@@ -40,13 +43,16 @@ router.get("/pc", (req, res1) => {
       let end = str.match(/上一篇/).index
       let  start = str.match(/下一篇/).index
       let title = str.match(/<h1>[\S|\s]*<\/h1>/)
+      let s = str.match(/下一篇[\s|\S]*上一篇/g)
       let a = str.slice(start, end)
       let h =  a.match(/"\S*"/)[0].replace(/"/g,"").match(/[0-9]{1}\S{1,}/g)[0]
+      console.log(s[0].replace(/"http:\S*"/,`"/pc/${h}"`))
       str = str.match(/<p>[\S]*<\/p>/g).join('')
       str = title + str
-      str += `<a href="/${h}">下一章</a>`
+      str += `<a href="/pc/${h}">下一章</a>`
       fs.writeFile(ps.join(__dirname, `../file/${h}`), str, err => {})
       res1.send(str)
     })
   })
 })
+module.exports = router
