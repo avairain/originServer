@@ -49,14 +49,6 @@ Operation.prototype.connectTimeOut = function () {
   }, 1000 * 60 * 60)
 }
 
-Operation.prototype.findAll = function (option) {
-  const _this = this
-  this[table].find({}).toArray(function (err, result) {
-    if (err) option.errorCallback(err)
-    option.callback(result)
-  })
-}
-
 Operation.prototype.insert = function (option) {
   // this.db.db('rain').insertOne()
   this[table].insertOne(option.info, (err, result) => {
@@ -64,6 +56,54 @@ Operation.prototype.insert = function (option) {
     option.callback(result)
   })
 }
+
+Operation.prototype.delete = function (option) {
+  // this.db.db('rain').insertOne()
+  option.info.isdelete = 1
+  this.update()
+}
+
+Operation.prototype.update = function (option) {
+  console.log(option)
+  // this.db.db('rain').insertOne()
+  let id = option.info.id
+  let newObj = { $set: {...option.info}}
+  this[table].updateOne({ id }, newObj, (err, result) => {
+    if (err) option.errorCallback(err)
+    console.log(result)
+    option.callback(result)
+  })
+}
+
+Operation.prototype.delete = function (option) {
+  // this.db.db('rain').insertOne()
+  this[table].deleteOne(option.info, (err, result) => {
+    if (err) option.errorCallback(err)
+    option.callback(result)
+  })
+}
+
+Operation.prototype.find = function (option) {
+  option.info = option.info || {}
+  for (const key in option.info) {
+    if (option.info.hasOwnProperty(key)) {
+      if(key !== 'id') {
+        option.info[key] = { $regex:option.info[key]}
+      }
+    }
+  }
+  option.info.isdelete = 0
+  this[table].find(option.info).toArray(function (err, result) {
+    if (err) option.errorCallback(err)
+    result.forEach(v => {
+      delete v._id
+      delete v.isdelete
+    })
+    console.log(result)
+    option.callback(result)
+  })
+}
+
 
 /* class Operation {
   constructor () {

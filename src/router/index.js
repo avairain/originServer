@@ -20,7 +20,7 @@ if(b + 1) {
   path = ('/' + process.argv[b+1]) || path
 }
 
-router.get('*', (req, res, next) => {
+router.all('*', (req, res, next) => {
   console.log(req.path)
   // if(req.path === '/' || req.path === '/index.html') {
   //   // fs.readFile(ps.join(__dirname, '../index.html'), (err, data) => {
@@ -29,6 +29,11 @@ router.get('*', (req, res, next) => {
   //     res.sendfile(ps.join(__dirname, '../public/index.html'))
   //   // })
   // } else {
+    res.append("Access-Control-Allow-Origin", "*");
+    res.append("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+    res.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.append("X-Powered-By",' 3.2.1')
+    res.append("Content-Type", "application/json;charset=utf-8");
     next()
   // }
 })
@@ -72,7 +77,46 @@ router.post('/add', (req, res, next) => {
 })
 
 router.post('/getList', (req, res, next) => {
-  o.findAll({
+  o.find({
+    info: req.body,
+    callback: result => {
+      res.send({
+        status: '0000',
+        result
+      })
+    },
+    errorCallback: err => {
+      res.send({
+        status: '0100',
+        result: err
+      })
+    }
+  })
+})
+
+router.post('/delete', (req, res, next) => {
+  let info = req.body
+  info.isdelete = 1
+  o.update({
+    info,
+    callback: result => {
+      res.send({
+        status: '0000',
+        result
+      })
+    },
+    errorCallback: err => {
+      res.send({
+        status: '0100',
+        result: err
+      })
+    }
+  })
+})
+
+router.post('/update', (req, res, next) => {
+  o.update({
+    info: req.body,
     callback: result => {
       res.send({
         status: '0000',
