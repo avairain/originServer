@@ -3,22 +3,23 @@ let router = express.Router()
 let http = require('http')
 let fs = require("fs")
 let ps = require('path')
-
+const operation = require('../databaseOperation')
+const o = new operation.Create()
 let url = 'http://www.jueshitangmen.info'
 let hostname = 'http://www.jueshitangmen.info'
 let port = '80'
 let path = '/zhetian'
 let h = process.argv.findIndex(v => v === '--host')
 let b = process.argv.findIndex(v => v === '--book')
+
 if(h + 1) {
   hostname = process.argv[h+1] || hostname
 }
+
 if(b + 1) {
   path = ('/' + process.argv[b+1]) || path
 }
-// router.all('*', (req, res, next) => {
-  
-// })
+
 router.get('*', (req, res, next) => {
   console.log(req.path)
   // if(req.path === '/' || req.path === '/index.html') {
@@ -31,10 +32,65 @@ router.get('*', (req, res, next) => {
     next()
   // }
 })
+
+router.post('/add', (req, res, next) => {
+  let info = req.body
+  let p = new Promise((resolve, reject) => {
+    o.findAll({
+      callback: result => {
+        resolve(result)
+      },
+      errorCallback: err => {
+        res.send({
+          status: '0100',
+          result: err
+        })
+      }
+    })
+  })
+  p
+    .then(data => {
+      let id = data.length ? data[data.length-1].id : 0
+      info.id = id + 1
+      info.isdelete = 0
+      o.insert({
+        info,
+        callback: result => {
+          res.send({
+            status: '0000',
+            result
+          })
+        },
+        errorCallback: err => {
+          res.send({
+            status: '0100',
+            result: err
+          })
+        }
+      })
+    })
+})
+
+router.post('/getList', (req, res, next) => {
+  o.findAll({
+    callback: result => {
+      res.send({
+        status: '0000',
+        result
+      })
+    },
+    errorCallback: err => {
+      res.send({
+        status: '0100',
+        result: err
+      })
+    }
+  })
+})
+
 router.get("/pc/:data?", (req, res1) => {
   if(/favicon.ico/.test(req.path)) return res1.send(200)
   url = hostname + path + "/" + (req.params.data || '1971.html')
-  console.log(url)
   // http({
     //   hostname: 'www.qiushibaike.com',
     //   port: 443,
@@ -67,4 +123,5 @@ router.get("/pc/:data?", (req, res1) => {
     })
   })
 })
+
 module.exports = router

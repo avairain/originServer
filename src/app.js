@@ -1,10 +1,21 @@
 let express = require('express')
 let ps = require('path')
 let router = require('./router')
+var bodyParser=require('body-parser')
+// let operation = require('./databaseOperation')
+
 let app = express()
-/* http://www.jueshitangmen.info/zhetian/1971.html */
+// let o = new operation.Create()
+
+// setTimeout(function () {
+  // o.close()
+// }, 1000 * 3)
+// console.log(o.close())
+
+app.use(bodyParser())
 app.use(express.static(ps.join(__dirname, 'webapp')))
 app.use(router)
+
 process.on('uncaughtException', function (err) { 
   console.log('Caught exception: ' + err); 
 }); 
