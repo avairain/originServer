@@ -41,7 +41,7 @@ router.all('*', (req, res, next) => {
 router.post('/add', (req, res, next) => {
   let info = req.body
   let p = new Promise((resolve, reject) => {
-    o.findAll({
+    o.find({
       callback: result => {
         resolve(result)
       },
