@@ -19,6 +19,18 @@ if(b + 1) {
 // router.all('*', (req, res, next) => {
   
 // })
+router.get('*', (req, res, next) => {
+  console.log(req.path)
+  // if(req.path === '/' || req.path === '/index.html') {
+  //   // fs.readFile(ps.join(__dirname, '../index.html'), (err, data) => {
+  //     // if (err) throw err;
+  //     // console.log(data)
+  //     res.sendfile(ps.join(__dirname, '../public/index.html'))
+  //   // })
+  // } else {
+    next()
+  // }
+})
 router.get("/pc/:data?", (req, res1) => {
   if(/favicon.ico/.test(req.path)) return res1.send(200)
   url = hostname + path + "/" + (req.params.data || '1971.html')
