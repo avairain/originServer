@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient
 
-const url = 'mongodb://140.143.239.174/'
+const url = 'mongodb://140.143.239.174:27017'
 const database = 'yaoxingyu'
 const table = 'yaoxingyu_rain'
 let timer = null
