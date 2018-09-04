@@ -11,8 +11,8 @@ let app = express()
   // o.close()
 // }, 1000 * 3)
 // console.log(o.close())
-
-app.use(bodyParser())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 app.use(express.static(ps.join(__dirname, 'webapp')))
 app.use(router)
 
