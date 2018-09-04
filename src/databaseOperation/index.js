@@ -19,7 +19,7 @@ Operation.prototype.init = async function () {
 Operation.prototype.connect = async function () {
   console.log(2)
   await new Promise((res) => {
-    this.db || MongoClient.connect(url, (err, db) => {
+    this.db || MongoClient.connect(url, {useNewUrlParser:true}, (err, db) => {
       console.log(3)
       if (err) throw err
       console.log("数据库已创建!")
