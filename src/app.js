@@ -20,6 +20,6 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err); 
 }); 
 
-app.listen(6060, () => {
+app.listen('6060', () => {
   console.log(6060)
 })
