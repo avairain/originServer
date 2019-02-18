@@ -14,6 +14,7 @@ let app = express()
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(express.static(ps.join(__dirname, 'webapp')))
+app.use('/files', express.static(ps.join(__dirname, '..', 'files')))
 app.use(router)
 
 process.on('uncaughtException', function (err) { 

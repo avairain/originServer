@@ -3,6 +3,21 @@ let router = express.Router()
 let http = require('http')
 let fs = require("fs")
 let ps = require('path')
+let multer = require('multer')
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, ps.join(__dirname, '../..', '/files'))
+  },
+  filename: function (req, file, cb) {
+    console.log(file.originalname.split('.'))
+    var type = file.originalname.split('.')[1]
+    file.type = type
+    file.name = file.fieldname + '-' + Date.now() + '.' + file.type
+    cb(null, file.name)
+  }
+  })
+let upload = multer({/* dest: 'files/' */storage})
+
 const operation = require('../databaseOperation')
 const o = new operation.Create()
 let url = 'http://www.jueshitangmen.info'
@@ -36,6 +51,14 @@ router.all('*', (req, res, next) => {
     res.append("Content-Type", "application/json;charset=utf-8");
     next()
   // }
+})
+
+router.post('/upload', upload.single('file'), (req, res, next) => {
+  console.log(req.file)
+  res.send({
+    error: 0,
+    url: `http://127.0.0.1:6060/files/${req.file.name}`
+  })
 })
 
 router.post('/add', (req, res, next) => {
