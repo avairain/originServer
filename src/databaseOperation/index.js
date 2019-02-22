@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient
 
-const url = 'mongodb://127.0.0.1:27017'
+const url = 'mongodb://140.143.239.174:27017'
 const database = 'yaoxingyu'
 const table = 'yaoxingyu_rain'
 let timer = null
@@ -99,7 +99,7 @@ Operation.prototype.find = function (option) {
       delete v._id
       delete v.isdelete
     })
-    console.log(result)
+    // console.log(result)
     option.callback(result)
   })
 }
