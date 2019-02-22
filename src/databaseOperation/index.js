@@ -67,7 +67,7 @@ Operation.prototype.update = function (option) {
   console.log(option)
   // this.db.db('rain').insertOne()
   let id = option.info.id
-  let newObj = { $set: {...option.info}}
+  let newObj = { $set: option.info }
   this[table].updateOne({ id }, newObj, (err, result) => {
     if (err) option.errorCallback(err)
     console.log(result)
@@ -94,6 +94,7 @@ Operation.prototype.find = function (option) {
   }
   option.info.isdelete = 0
   this[table].find(option.info).toArray(function (err, result) {
+    console.log(err)
     if (err) option.errorCallback(err)
     result.forEach(v => {
       delete v._id

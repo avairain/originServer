@@ -13,7 +13,7 @@ let app = express()
 // console.log(o.close())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-app.use(express.static(ps.join(__dirname, 'webapp')))
+app.use(express.static(ps.join(__dirname, '../../src/', 'webapp')))
 app.use('/files', express.static(ps.join(__dirname, '..', 'files')))
 app.use(router)
 

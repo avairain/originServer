@@ -44,12 +44,12 @@ router.all('*', (req, res, next) => {
   //     res.sendfile(ps.join(__dirname, '../public/index.html'))
   //   // })
   // } else {
-    res.append("Access-Control-Allow-Origin", "*");
-    res.append("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
-    res.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
-    res.append("X-Powered-By",' 3.2.1')
-    res.append("Content-Type", "application/json;charset=utf-8");
-    next()
+  res.append("Access-Control-Allow-Origin", "*");
+  res.append("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+  res.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  res.append("X-Powered-By",' 3.2.1')
+  res.append("Content-Type", "application/json;charset=utf-8");
+  next()
   // }
 })
 
