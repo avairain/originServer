@@ -1,11 +1,20 @@
 'use strict';
 
+var _ListInfo = require('../databaseOperation/508ListInfo');
+
+var _ListInfo2 = _interopRequireDefault(_ListInfo);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var express = require('express');
 var router = express.Router();
 var http = require('http');
 var fs = require("fs");
 var ps = require('path');
 var multer = require('multer');
+
+var _508ListInfo = new _ListInfo2.default();
+
 var storage = multer.diskStorage({
   destination: function destination(req, file, cb) {
     cb(null, ps.join(__dirname, '../..', '/files'));
@@ -50,11 +59,11 @@ router.all('*', function (req, res, next) {
   //     res.sendfile(ps.join(__dirname, '../public/index.html'))
   //   // })
   // } else {
-  res.append("Access-Control-Allow-Origin", "*");
-  res.append("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
-  res.append("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
-  res.append("X-Powered-By", ' 3.2.1');
-  res.append("Content-Type", "application/json;charset=utf-8");
+  // res.append("Access-Control-Allow-Origin", "*");
+  // res.append("Access-Control-Allow-Headers", "X-Requested-With,Content-Type");
+  // res.append("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+  // res.append("X-Powered-By",' 3.2.1')
+  // res.append("Content-Type", "application/json;charset=utf-8");
   next();
   // }
 });
@@ -195,6 +204,99 @@ router.get("/pc/:data?", function (req, res1) {
       fs.writeFile(ps.join(__dirname, '../file/' + h), str, function (err) {});
       res1.send(str);
     });
+  });
+});
+
+router.post('/get508InfoList', function (req, res) {
+  _508ListInfo.find({
+    info: req.body,
+    callback: function callback(result) {
+      res.send({
+        status: '0000',
+        result: result
+      });
+    },
+    errorCallback: function errorCallback(err) {
+      res.send({
+        status: '0100',
+        result: err
+      });
+    }
+  });
+});
+
+router.post('/add508Member', function (req, res) {
+  _508ListInfo.find({
+    info: { uName: req.body.uName },
+    callback: function callback(result) {
+      if (result && result.length) {
+        res.send({
+          status: '0001',
+          result: [],
+          message: '不可重复添加'
+        });
+      } else {
+        _508ListInfo.insert({
+          info: req.body,
+          callback: function callback(result) {
+            res.send({
+              status: '0000',
+              result: result
+            });
+          }
+        });
+      }
+    },
+    errorCallback: function errorCallback(err) {
+      res.send({
+        status: '0100',
+        result: err
+      });
+    }
+  });
+});
+
+router.post('/delete50Member', function (req, res) {
+  _508ListInfo.update({
+    info: req.body,
+    callback: function callback(result) {
+      res.send({
+        status: '0000',
+        result: result
+      });
+    }
+  });
+});
+
+router.post('/update508Member', function (req, res) {
+  _508ListInfo.find({
+    info: { uName: req.body.uName, id: req.body.id },
+    callback: function callback(result) {
+      console.log(result);
+      if (result && result.length) {
+        _508ListInfo.update({
+          info: req.body,
+          callback: function callback(result) {
+            res.send({
+              status: '0000',
+              result: result
+            });
+          }
+        });
+      } else {
+        res.send({
+          status: '0004',
+          result: [],
+          message: '查不到当前数据'
+        });
+      }
+    },
+    errorCallback: function errorCallback(err) {
+      res.send({
+        status: '0100',
+        result: err
+      });
+    }
   });
 });
 

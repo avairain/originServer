@@ -64,7 +64,7 @@ Operation.prototype.insert = function (option) {
 Operation.prototype.delete = function (option) {
   // this.db.db('rain').insertOne()
   option.info.isdelete = 1;
-  this.update();
+  this.update(option);
 };
 
 Operation.prototype.update = function (option) {
