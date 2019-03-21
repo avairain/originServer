@@ -5,8 +5,8 @@ let fs = require("fs")
 let ps = require('path')
 let multer = require('multer')
 import axios from 'axios'
-
 import ListInfo from '../databaseOperation/508ListInfo'
+import { renderHTML } from '../config'
 const _508ListInfo = new ListInfo()
 
 var storage = multer.diskStorage({
