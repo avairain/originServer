@@ -1,5 +1,9 @@
 'use strict';
 
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _ListInfo = require('../databaseOperation/508ListInfo');
 
 var _ListInfo2 = _interopRequireDefault(_ListInfo);
@@ -297,6 +301,26 @@ router.post('/update508Member', function (req, res) {
         result: err
       });
     }
+  });
+});
+
+router.post('/ydyl', function (req, res) {
+  _axios2.default.post('http://si.12333.gov.cn/118733/RemoteQuery003.jspx', {
+    'aab299': '',
+    'akb021': '',
+    'yldj': '',
+    'akb023': '',
+    'notkeyflag': 1
+  }, {
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Cookie': 'JSESSIONID=9T2eNUMB7e3S-v8PoW_bfoWFZOXhKmgJgMVVtxFhtyj3W_NEEs3v!-1364551590; vcookieid=3b73286b8da54bcca6d8da5cdd95eb19',
+    'Origin': 'http://si.12333.gov.cn',
+    'Host': 'si.12333.gov.cn'
+  }).then(function (data) {
+    console.log(data.data);
+    res.send(renderHTML(data.data.lists.resultset.list));
+  }).catch(function (err) {
+    return console.log(err);
   });
 });
 
