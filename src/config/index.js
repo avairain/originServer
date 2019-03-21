@@ -5,11 +5,11 @@ export const renderHTML = info => {
   info.forEach(v => {
     oHTML += `
       <tr>
-        <td>${v.aab299}</td>
-        <td>${v.akb021}</td>
-        <td>${v.aae006}</td>
-        <td>'${v.akb020}</td>
-        <td>'${v.aae005}</td>
+        <td>${v.aab299 || '--'}</td>
+        <td>${v.akb021 || '--'}</td>
+        <td>${v.aae006 || '--'}</td>
+        <td>'${v.akb020 || '--'}</td>
+        <td>'${v.aae005 || '--'}</td>
       </tr>
     `
   });
