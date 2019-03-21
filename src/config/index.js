@@ -1,6 +1,6 @@
 export const table = ''
 export const renderHTML = info => {
-
+  info = info.filter(v => v.aab299 === '北京市' || v.aab299 === '上海市')
   let oHTML = ''
   info.forEach(v => {
     oHTML += `
