@@ -7,8 +7,8 @@ export const renderHTML = info => {
       <tr>
         <td>${v.aab299 || '--'}</td>
         <td>${v.akb021 || '--'}</td>
-        <td>${v.akb020 || '--'}</td>
-        <td>${initLevel(v.akb020).aka101 || '--'}</td>
+        <td>${v.akb020.toString || '--'}</td>
+        <td>${initLevel(v.akb020).name || '--'}</td>
         <td>${initType(v.akb023).name || '--'}</td>
         <td>${v.aae006 || '--'}</td>
       </tr>
