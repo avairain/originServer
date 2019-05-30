@@ -3,6 +3,13 @@ var MongoClient = require('mongodb').MongoClient
 const url = 'mongodb://140.143.239.174:27017'
 const database = 'yaoxingyu'
 const table = 'yaoxingyu_rain'
+const options = {
+  useNewUrlParser:true,
+  server: {
+    auto_reconnect: true,
+    poolSize: 10
+  }
+}
 let timer = null
 
 const Operation = function () {
@@ -19,7 +26,7 @@ Operation.prototype.init = async function () {
 Operation.prototype.connect = async function () {
   console.log(2)
   await new Promise((res) => {
-    this.db || MongoClient.connect(url, {useNewUrlParser:true}, (err, db) => {
+    this.db || MongoClient.connect(url, { ...options }, (err, db) => {
       console.log(3)
       if (err) throw err
       console.log("数据库已创建!")
@@ -44,7 +51,7 @@ Operation.prototype.connectTimeOut = function () {
   clearTimeout(timer)
   const _this = this
   timer = setTimeout(function () {
-    _this.close()
+    // _this.close()
     clearTimeout(timer)
   }, 1000 * 60 * 60)
 }
