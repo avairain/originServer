@@ -5,10 +5,8 @@ const database = 'yaoxingyu'
 const table = 'yaoxingyu_rain'
 const options = {
   useNewUrlParser:true,
-  server: {
-    auto_reconnect: true,
-    poolSize: 10
-  }
+  auto_reconnect: true,
+  poolSize: 10
 }
 let timer = null
 
