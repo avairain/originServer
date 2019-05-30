@@ -5,10 +5,8 @@ const database = 'yaoxingyu'
 const table = 'yaoxingyu_rain'
 const options = {
   useNewUrlParser:true,
-  server: {
-    auto_reconnect: true,
-    poolSize: 10
-  }
+  auto_reconnect: true,
+  poolSize: 10
 }
 let timer = null
 
@@ -26,7 +24,7 @@ Operation.prototype.init = async function () {
 Operation.prototype.connect = async function () {
   console.log(2)
   await new Promise((res) => {
-    this.db || MongoClient.connect(url, { ...options }, (err, db) => {
+    this.db || MongoClient.connect(url, options, (err, db) => {
       console.log(3)
       if (err) throw err
       console.log("数据库已创建!")
