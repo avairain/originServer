@@ -13,7 +13,7 @@ let _dbOption = {
 };
 class ListInfo {
   constructor (url = 'mongodb://140.143.239.174:27017', database = 'yaoxingyu', table = 'infoList') {
-    this.init({ url, database, table})
+    // this.init({ url, database, table})
   }
   async init ({ url, database, table}) {
     option = { url, database, table}
